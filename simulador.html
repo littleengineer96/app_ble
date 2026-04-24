@@ -6,16 +6,18 @@
   <title>Simulador — App BLE Genérico (robocamv2)</title>
   <style>
     :root {
-      --primary:      #1976D2;
-      --primary-dark: #0D47A1;
-      --accent:       #00BCD4;
-      --green:        #4CAF50;
-      --red:          #E53935;
-      --orange:       #FF9800;
-      --bg:           #09101f;
-      --sidebar-bg:   #0d1526;
-      --border:       rgba(255,255,255,0.08);
-      --card:         rgba(255,255,255,0.07);
+      --primary:      #E8500A;
+      --primary-dark: #BF3A00;
+      --accent:       #FF6B2B;
+      --accent2:      #F59E0B;
+      --green:        #22C55E;
+      --red:          #EF4444;
+      --orange:       #FF6B2B;
+      --bg:           #0C0C0E;
+      --sidebar-bg:   #101012;
+      --surface:      #161618;
+      --border:       rgba(255,255,255,0.07);
+      --card:         rgba(255,255,255,0.05);
       --font:         'Segoe UI', system-ui, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +35,7 @@
     /* SIDEBAR */
     .sidebar {
       background: var(--sidebar-bg);
-      border-right: 1px solid var(--border);
+      border-right: 1px solid rgba(255,107,43,0.12);
       padding: 14px 10px;
       overflow-y: auto;
       display: flex; flex-direction: column; gap: 2px;
@@ -42,7 +44,7 @@
       font-size: 11px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 1.5px;
       color: var(--accent); padding: 4px 8px 10px;
-      border-bottom: 1px solid var(--border); margin-bottom: 6px;
+      border-bottom: 1px solid rgba(255,107,43,0.18); margin-bottom: 6px;
     }
     .nav-group {
       font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
@@ -57,14 +59,14 @@
     }
     .nav-btn .i { font-size: 14px; width: 18px; text-align: center; }
     .nav-btn:hover { background: rgba(255,255,255,0.07); color: #fff; }
-    .nav-btn.active { background: rgba(33,150,243,0.22); color: #90CAF9; }
+    .nav-btn.active { background: rgba(232,80,10,0.2); color: #FF9166; }
     .nav-divider { height: 1px; background: var(--border); margin: 8px 0; }
 
     /* CENTER */
     .center {
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      background: radial-gradient(ellipse at 50% 40%, #152040 0%, #09101f 100%);
+      background: radial-gradient(ellipse at 50% 35%, #1A1008 0%, #0C0C0E 100%);
       gap: 8px;
     }
     .phone-label {
@@ -74,11 +76,11 @@
 
     /* PHONE */
     .phone {
-      width: 360px; height: 720px; background: #111;
-      border-radius: 44px; border: 2.5px solid #2a2a2a;
+      width: 360px; height: 720px; background: #0a0a0a;
+      border-radius: 44px; border: 2.5px solid #222;
       position: relative; overflow: hidden;
-      box-shadow: 0 0 0 1px #1a1a1a, 0 20px 80px rgba(0,0,0,0.6),
-                  0 0 60px rgba(33,150,243,0.12);
+      box-shadow: 0 0 0 1px #1a1a1a, 0 20px 80px rgba(0,0,0,0.75),
+                  0 0 60px rgba(232,80,10,0.1);
     }
     .phone-notch {
       position: absolute; top: 0; left: 50%; transform: translateX(-50%);
@@ -109,8 +111,8 @@
     .app-bar {
       height: 50px; padding: 0 14px;
       display: flex; align-items: center; gap: 10px; flex-shrink: 0;
-      background: rgba(0,0,0,0.18);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
     .app-bar-title { font-size: 16px; font-weight: 600; flex: 1; }
     .back-btn {
@@ -126,16 +128,17 @@
 
     /* SPLASH */
     #screen-splash {
-      background: linear-gradient(155deg, #0D47A1 0%, #1565C0 55%, #1976D2 100%);
+      background: #0C0C0E;
       align-items: center; justify-content: center;
     }
     .splash-logo {
       width: 86px; height: 86px;
-      background: rgba(255,255,255,0.13);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(232,80,10,0.12);
+      border: 1.5px solid rgba(232,80,10,0.35);
       border-radius: 22px; font-size: 38px;
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      box-shadow: 0 0 40px rgba(232,80,10,0.25), 0 8px 32px rgba(0,0,0,0.5);
       animation: logoPulse 2s ease-in-out infinite;
     }
     @keyframes logoPulse {
@@ -145,30 +148,32 @@
     .splash-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
     .splash-sub { font-size: 13px; opacity: 0.55; margin-bottom: 50px; }
     .progress-bar {
-      width: 160px; height: 3px;
-      background: rgba(255,255,255,0.18); border-radius: 2px;
+      width: 160px; height: 2px;
+      background: rgba(255,255,255,0.08); border-radius: 1px;
       overflow: hidden; margin-bottom: 10px;
     }
     .progress-fill {
-      height: 100%; background: rgba(255,255,255,0.85);
-      border-radius: 2px; width: 0%;
+      height: 100%; background: var(--accent);
+      border-radius: 1px; width: 0%;
       transition: width 0.04s linear;
+      box-shadow: 0 0 8px var(--accent);
     }
     .splash-txt { font-size: 11px; opacity: 0.4; }
 
     /* LOGIN */
     #screen-login {
-      background: linear-gradient(155deg, #0D47A1 0%, #1565C0 55%, #1976D2 100%);
+      background: #0C0C0E;
       align-items: center; justify-content: center;
       padding: 28px 28px 40px;
     }
     .login-logo {
       width: 64px; height: 64px;
-      background: rgba(255,255,255,0.13);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(232,80,10,0.12);
+      border: 1.5px solid rgba(232,80,10,0.35);
       border-radius: 18px; font-size: 28px;
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 14px; box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+      margin-bottom: 14px;
+      box-shadow: 0 0 28px rgba(232,80,10,0.2), 0 6px 24px rgba(0,0,0,0.4);
     }
     .login-title { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
     .login-sub   { font-size: 12px; opacity: 0.45; margin-bottom: 32px; }
@@ -176,16 +181,17 @@
     .login-field { display: flex; flex-direction: column; gap: 5px; }
     .login-field label { font-size: 11px; font-weight: 600; opacity: 0.55; }
     .login-input {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 12px; color: #fff; padding: 11px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; color: #fff; padding: 11px 14px;
       font-size: 14px; font-family: var(--font); width: 100%;
       outline: none; transition: border 0.15s, background 0.15s;
     }
-    .login-input::placeholder { color: rgba(255,255,255,0.28); }
+    .login-input::placeholder { color: rgba(255,255,255,0.22); }
     .login-input:focus {
-      border-color: rgba(255,255,255,0.5);
-      background: rgba(255,255,255,0.16);
+      border-color: rgba(232,80,10,0.6);
+      background: rgba(232,80,10,0.06);
+      box-shadow: 0 0 0 2px rgba(232,80,10,0.12);
     }
     .login-error {
       font-size: 11px; color: #EF9A9A;
@@ -216,9 +222,9 @@
     }
     .role-card:hover { background: rgba(255,255,255,0.12); }
     .role-card.selected {
-      border-color: #90CAF9;
-      background: rgba(144,202,249,0.18);
-      box-shadow: 0 0 12px rgba(144,202,249,0.25);
+      border-color: var(--accent);
+      background: rgba(232,80,10,0.12);
+      box-shadow: 0 0 14px rgba(232,80,10,0.2);
     }
     .role-card .role-icon { font-size: 22px; margin-bottom: 4px; }
     .role-card .role-name { font-size: 11px; font-weight: 700; }
@@ -227,7 +233,7 @@
 
     /* DEV TESTS */
     #screen-dev-tests {
-      background: linear-gradient(155deg, #1B1B2F 0%, #1F2B3A 100%);
+      background: #0C0C0E;
       padding: 0; overflow: hidden;
     }
     .dev-tests-content {
@@ -243,17 +249,17 @@
     }
     .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; }
     .test-btn {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px; color: #fff; cursor: pointer; padding: 9px 6px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px; color: rgba(255,255,255,0.75); cursor: pointer; padding: 9px 6px;
       font-size: 11px; font-family: var(--font); text-align: center;
       transition: background 0.15s, transform 0.1s; line-height: 1.4;
     }
-    .test-btn:hover   { background: rgba(255,255,255,0.12); }
+    .test-btn:hover   { background: rgba(232,80,10,0.12); border-color: rgba(232,80,10,0.3); color: #fff; }
     .test-btn:active  { transform: scale(0.96); }
     .test-btn .ti     { display: block; font-size: 18px; margin-bottom: 3px; }
-    .test-btn.running { border-color: #FFB300; background: rgba(255,179,0,0.12); }
-    .test-btn.ok      { border-color: var(--green); background: rgba(100,221,23,0.1); }
-    .test-btn.fail    { border-color: #EF5350; background: rgba(239,83,80,0.1); }
+    .test-btn.running { border-color: #F59E0B; background: rgba(245,158,11,0.1); color: #FCD34D; }
+    .test-btn.ok      { border-color: var(--green); background: rgba(34,197,94,0.08); color: #86EFAC; }
+    .test-btn.fail    { border-color: var(--red); background: rgba(239,68,68,0.08); color: #FCA5A5; }
     .test-result-bar {
       margin: 0 8px 8px; padding: 8px 10px;
       background: rgba(0,0,0,0.25); border-radius: 8px;
@@ -261,14 +267,14 @@
       color: rgba(255,255,255,0.7); min-height: 32px;
     }
     .dev-badge {
-      font-size: 9px; padding: 2px 7px; border-radius: 6px;
-      background: rgba(255,179,0,0.18); border: 1px solid rgba(255,179,0,0.4);
-      color: #FFB300; font-weight: 700; letter-spacing: .3px;
+      font-size: 9px; padding: 2px 7px; border-radius: 4px;
+      background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.35);
+      color: #FCD34D; font-weight: 700; letter-spacing: .3px;
     }
 
     /* DEVICE HOME */
     #screen-device-home {
-      background: linear-gradient(155deg, #0A1628 0%, #0D1F3C 60%, #0A2744 100%);
+      background: #0C0C0E;
     }
     .dh-banner {
       display: flex; align-items: center; gap: 12px;
@@ -294,9 +300,9 @@
     }
     .dh-action-card:hover  { background: rgba(255,255,255,0.1); }
     .dh-action-card:active { transform: scale(0.98); }
-    .dh-action-card.ctrl   { border-color: rgba(100,221,23,0.3);  background: rgba(100,221,23,0.06); }
-    .dh-action-card.cfg    { border-color: rgba(100,181,246,0.3); background: rgba(100,181,246,0.06); }
-    .dh-action-card.test   { border-color: rgba(255,179,0,0.3);   background: rgba(255,179,0,0.06); }
+    .dh-action-card.ctrl   { border-color: rgba(34,197,94,0.3);   background: rgba(34,197,94,0.06); }
+    .dh-action-card.cfg    { border-color: rgba(232,80,10,0.3);   background: rgba(232,80,10,0.06); }
+    .dh-action-card.test   { border-color: rgba(245,158,11,0.3);  background: rgba(245,158,11,0.06); }
     .dh-action-icon { font-size: 26px; width: 44px; text-align: center; flex-shrink: 0; }
     .dh-action-title { font-size: 14px; font-weight: 700; }
     .dh-action-desc  { font-size: 11px; opacity: 0.45; margin-top: 2px; }
@@ -312,7 +318,7 @@
 
     /* DEVICE CONFIG */
     #screen-device-config {
-      background: linear-gradient(155deg, #0A1628 0%, #0D1F3C 100%);
+      background: #0C0C0E;
       overflow: hidden;
     }
     .cfg-content {
@@ -335,13 +341,17 @@
     .cfg-field  { display: flex; flex-direction: column; gap: 4px; }
     .cfg-field label { font-size: 10px; font-weight: 600; opacity: 0.45; }
     .cfg-input {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px; color: #fff; padding: 9px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; color: #fff; padding: 9px 12px;
       font-size: 13px; font-family: var(--font); width: 100%;
       outline: none; transition: border 0.15s, background 0.15s;
     }
-    .cfg-input:focus { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.12); }
+    .cfg-input:focus {
+      border-color: rgba(232,80,10,0.6);
+      background: rgba(232,80,10,0.06);
+      box-shadow: 0 0 0 2px rgba(232,80,10,0.1);
+    }
     .cfg-select {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.15);
@@ -361,7 +371,7 @@
       cursor: pointer; position: relative; transition: background 0.2s;
       flex-shrink: 0;
     }
-    .cfg-toggle.on { background: var(--blue); border-color: var(--blue); }
+    .cfg-toggle.on { background: var(--accent); border-color: var(--accent); }
     .cfg-toggle::after {
       content: ''; position: absolute; top: 3px; left: 3px;
       width: 14px; height: 14px; border-radius: 50%; background: #fff;
@@ -370,13 +380,13 @@
     .cfg-toggle.on::after { transform: translateX(16px); }
     .cfg-save-btn {
       margin: 8px 12px 12px; padding: 10px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px; color: #fff; cursor: pointer;
-      font-size: 12px; font-family: var(--font);
+      background: rgba(232,80,10,0.12);
+      border: 1px solid rgba(232,80,10,0.3);
+      border-radius: 8px; color: #FF9166; cursor: pointer;
+      font-size: 12px; font-weight: 600; font-family: var(--font);
       transition: background 0.15s;
     }
-    .cfg-save-btn:hover { background: rgba(255,255,255,0.15); }
+    .cfg-save-btn:hover { background: rgba(232,80,10,0.22); color: #fff; }
 
     /* RF / IR code table */
     .cfg-code-table { width: 100%; border-collapse: collapse; }
@@ -419,7 +429,7 @@
 
     /* HOME */
     #screen-home {
-      background: linear-gradient(155deg, #0D47A1 0%, #1565C0 60%, #1976D2 100%);
+      background: #0C0C0E;
     }
     .home-header {
       padding: 6px 14px 10px; flex-shrink: 0;
@@ -430,9 +440,10 @@
     .bt-chip {
       display: flex; align-items: center; gap: 6px;
       font-size: 11px; font-weight: 600;
-      background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 12px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      padding: 4px 10px; border-radius: 8px;
     }
-    .bt-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 5px var(--green); }
+    .bt-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
 
     /* CARDS */
     .card {
@@ -487,40 +498,40 @@
     .chip {
       display: inline-flex; align-items: center; gap: 3px;
       font-size: 10px; font-weight: 600;
-      padding: 2px 8px; border-radius: 7px;
+      padding: 2px 8px; border-radius: 5px;
     }
-    .chip-blue   { background: rgba(33,150,243,0.25);  color: #90CAF9; }
-    .chip-orange { background: rgba(255,152,0,0.25);   color: #FFCC80; }
-    .chip-green  { background: rgba(76,175,80,0.25);   color: #A5D6A7; }
-    .chip-gray   { background: rgba(255,255,255,0.1);  color: rgba(255,255,255,0.4); }
-    .chip-red    { background: rgba(229,57,53,0.25);   color: #EF9A9A; }
-    .chip-purple { background: rgba(156,39,176,0.25);  color: #CE93D8; }
+    .chip-blue   { background: rgba(232,80,10,0.2);    color: #FF9166; }
+    .chip-orange { background: rgba(245,158,11,0.2);   color: #FCD34D; }
+    .chip-green  { background: rgba(34,197,94,0.18);   color: #86EFAC; }
+    .chip-gray   { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.38); }
+    .chip-red    { background: rgba(239,68,68,0.2);    color: #FCA5A5; }
+    .chip-purple { background: rgba(168,85,247,0.2);   color: #D8B4FE; }
 
     /* BUTTONS */
     .btn {
-      border: none; border-radius: 13px; cursor: pointer;
+      border: none; border-radius: 10px; cursor: pointer;
       font-family: var(--font); font-weight: 600;
       display: flex; align-items: center; justify-content: center;
       gap: 7px; transition: all 0.13s; width: 100%;
     }
     .btn-primary {
-      background: rgba(255,255,255,0.13);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff; padding: 12px; font-size: 14px;
+      background: rgba(232,80,10,0.15);
+      border: 1px solid rgba(232,80,10,0.35);
+      color: #FF9166; padding: 12px; font-size: 14px;
     }
-    .btn-primary:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+    .btn-primary:hover { background: rgba(232,80,10,0.28); color: #fff; transform: translateY(-1px); }
     .btn-accent  { background: var(--accent); color: #fff; padding: 11px; font-size: 13px; }
-    .btn-accent:hover { filter: brightness(1.12); }
+    .btn-accent:hover { filter: brightness(1.1); }
     .btn-green   { background: var(--green); color: #fff; padding: 11px; font-size: 13px; }
     .btn-green:hover { filter: brightness(1.1); }
-    .btn-red     { background: var(--red); color: #fff; padding: 8px 14px; font-size: 12px; width: auto; border-radius: 10px; }
+    .btn-red     { background: var(--red); color: #fff; padding: 8px 14px; font-size: 12px; width: auto; border-radius: 8px; }
     .btn-red:hover { filter: brightness(1.1); }
     .btn-outline {
-      background: transparent; border: 1px solid rgba(255,255,255,0.22);
-      color: rgba(255,255,255,0.65); padding: 9px; font-size: 12px;
+      background: transparent; border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.55); padding: 9px; font-size: 12px;
     }
-    .btn-outline:hover { background: rgba(255,255,255,0.07); color: #fff; }
-    .btn-sm { padding: 7px 12px; font-size: 11px; width: auto; border-radius: 9px; }
+    .btn-outline:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .btn-sm { padding: 7px 12px; font-size: 11px; width: auto; border-radius: 7px; }
 
     /* device result row (scan list) */
     .dev-result {
@@ -537,7 +548,7 @@
 
     /* CONNECTING */
     #screen-connecting {
-      background: linear-gradient(155deg, #0D47A1 0%, #1565C0 60%, #1976D2 100%);
+      background: #0C0C0E;
     }
     .conn-banner {
       background: rgba(0,0,0,0.2); border-radius: 14px;
@@ -555,9 +566,9 @@
       font-size: 11px; flex-shrink: 0;
       background: rgba(255,255,255,0.1);
     }
-    .step.done   .step-ic { background: var(--green); }
-    .step.active .step-ic { background: var(--accent); animation: spin 0.8s linear infinite; }
-    .step.error  .step-ic { background: var(--red); }
+    .step.done   .step-ic { background: rgba(34,197,94,0.25); color: var(--green); border: 1px solid rgba(34,197,94,0.4); }
+    .step.active .step-ic { background: rgba(232,80,10,0.2); color: var(--accent); border: 1px solid rgba(232,80,10,0.4); animation: spin 0.8s linear infinite; }
+    .step.error  .step-ic { background: rgba(239,68,68,0.2); color: var(--red); border: 1px solid rgba(239,68,68,0.4); }
     @keyframes spin { to { transform: rotate(360deg); } }
     .sync-box {
       background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.12);
@@ -575,19 +586,20 @@
 
     /* D-PAD */
     #screen-ctrl-flap {
-      background: linear-gradient(155deg, #0D47A1 0%, #1565C0 60%, #1976D2 100%);
+      background: #0C0C0E;
     }
     .dpad-wrap { display: flex; align-items: center; justify-content: center; flex: 1; }
     .dpad { position: relative; width: 230px; height: 230px; }
     .dp {
       position: absolute; border: none; cursor: pointer;
-      border-radius: 15px; display: flex; align-items: center;
+      border-radius: 12px; display: flex; align-items: center;
       justify-content: center; font-size: 22px; color: #fff;
-      transition: all 0.1s; background: rgba(255,255,255,0.11);
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      transition: all 0.1s;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
     }
-    .dp:hover  { background: rgba(255,255,255,0.2); }
+    .dp:hover  { background: rgba(232,80,10,0.2); border-color: rgba(232,80,10,0.4); }
     .dp:active { transform: scale(0.9); }
     .dp.up    { top: 0;    left: 79px; width: 72px; height: 72px; }
     .dp.down  { bottom: 0; left: 79px; width: 72px; height: 72px; }
@@ -595,23 +607,25 @@
     .dp.right { top: 79px; right: 0;   width: 72px; height: 72px; }
     .dp.stop  {
       top: 79px; left: 79px; width: 72px; height: 72px;
-      background: rgba(229,57,53,0.38); border-color: rgba(229,57,53,0.55);
+      background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.4);
       border-radius: 50%; font-size: 12px; font-weight: 700;
     }
-    .dp.stop:hover { background: rgba(229,57,53,0.6); }
+    .dp.stop:hover { background: rgba(239,68,68,0.38); }
     .cmd-display {
       background: rgba(0,0,0,0.22); border-radius: 9px;
       padding: 8px 12px; font-size: 12px;
       display: flex; align-items: center; gap: 8px; min-height: 36px;
     }
     .cmd-badge {
-      background: var(--accent); color: #fff;
-      padding: 3px 9px; border-radius: 7px; font-size: 11px; font-weight: 600;
+      background: rgba(232,80,10,0.25); color: #FF9166;
+      border: 1px solid rgba(232,80,10,0.4);
+      padding: 3px 9px; border-radius: 5px; font-size: 11px; font-weight: 700;
+      font-family: monospace;
     }
 
     /* ROBOCAM */
     #screen-ctrl-robocam {
-      background: linear-gradient(155deg, #1a237e 0%, #283593 55%, #303f9f 100%);
+      background: #0C0C0E;
     }
     .angles-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
@@ -619,7 +633,7 @@
     }
     .angle-cell { text-align: center; }
     .angle-lbl  { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); margin-bottom: 2px; }
-    .angle-val  { font-size: 26px; font-weight: 700; color: var(--accent); }
+    .angle-val  { font-size: 26px; font-weight: 700; color: var(--accent); font-family: 'Courier New', monospace; }
     .angle-unit { font-size: 11px; color: rgba(255,255,255,0.4); }
     .slider-wrap { display: flex; flex-direction: column; gap: 5px; }
     .slider-row  { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.65); }
@@ -628,24 +642,31 @@
       background: rgba(255,255,255,0.18); outline: none;
     }
     input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none; width: 17px; height: 17px;
-      border-radius: 50%; background: var(--accent);
-      cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      -webkit-appearance: none; width: 16px; height: 16px;
+      border-radius: 3px; background: var(--accent);
+      cursor: pointer; box-shadow: 0 0 8px rgba(232,80,10,0.4);
     }
     .slider-ticks { display: flex; justify-content: space-between; font-size: 9px; color: rgba(255,255,255,0.25); }
 
     /* APPBAR ICON ACTION BUTTONS */
-    .ab-actions { display: flex; align-items: center; gap: 2px; }
+    .ab-actions { display: flex; align-items: center; gap: 4px; }
     .ab-icon-btn {
-      width: 30px; height: 30px; border-radius: 6px; border: none;
-      background: transparent; color: rgba(255,255,255,0.55);
-      font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: color 0.15s, background 0.15s; flex-shrink: 0;
+      width: 38px; height: 38px; border-radius: 9px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7);
+      font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: color 0.15s, background 0.15s, border-color 0.15s; flex-shrink: 0;
     }
-    .ab-icon-btn:hover  { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
-    .ab-icon-btn:active { color: #fff; transform: scale(0.9); }
-    .ab-icon-btn.danger { color: rgba(255,255,255,0.45); }
-    .ab-icon-btn.danger:hover { color: #EF9A9A; background: rgba(239,83,80,0.15); }
+    .ab-icon-btn:hover  { color: #fff; background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.22); }
+    .ab-icon-btn:active { transform: scale(0.92); }
+    .btn-disconnect {
+      width: 100%; padding: 12px; border: 1px solid rgba(239,68,68,0.35);
+      background: rgba(239,68,68,0.1); color: #FCA5A5; border-radius: 10px;
+      font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.13s; flex-shrink: 0;
+    }
+    .btn-disconnect:hover  { background: rgba(239,68,68,0.25); color: #fff; border-color: rgba(239,68,68,0.6); }
+    .btn-disconnect:active { transform: scale(0.97); }
 
     /* CAMERA PREVIEW */
     .cam-preview {
@@ -708,20 +729,21 @@
       display: flex; align-items: center; justify-content: center;
     }
     .move-btn:active { transform: scale(0.93); opacity: 0.8; }
-    .move-btn.dir  { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.18); }
-    .move-btn.stop { background: rgba(239,83,80,0.25); color: #EF9A9A; border: 1px solid rgba(239,83,80,0.4); font-size: 14px; }
+    .move-btn.dir  { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
+    .move-btn.dir:hover { background: rgba(232,80,10,0.18); border-color: rgba(232,80,10,0.35); }
+    .move-btn.stop { background: rgba(239,68,68,0.15); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.3); font-size: 14px; }
 
     /* PHOTO BUTTON */
     .photo-btn-wrap { display: flex; justify-content: center; margin: 2px 14px; }
     .photo-btn {
       display: flex; align-items: center; gap: 8px;
-      padding: 10px 28px; border-radius: 50px;
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      color: #fff; font-size: 13px; font-weight: 600; cursor: pointer;
+      padding: 10px 28px; border-radius: 8px;
+      background: rgba(232,80,10,0.12); border: 1px solid rgba(232,80,10,0.3);
+      color: #FF9166; font-size: 13px; font-weight: 600; cursor: pointer;
       font-family: var(--font); transition: background 0.15s;
     }
-    .photo-btn:hover  { background: rgba(255,255,255,0.18); }
-    .photo-btn:active { background: rgba(255,255,255,0.28); transform: scale(0.97); }
+    .photo-btn:hover  { background: rgba(232,80,10,0.22); color: #fff; }
+    .photo-btn:active { background: rgba(232,80,10,0.35); transform: scale(0.97); }
     .photo-btn-icon { font-size: 18px; }
     .photo-count {
       background: rgba(0,188,212,0.25); border-radius: 20px; padding: 1px 7px;
@@ -731,7 +753,7 @@
     /* RIGHT PANEL */
     .right-panel {
       background: var(--sidebar-bg);
-      border-left: 1px solid var(--border);
+      border-left: 1px solid rgba(255,107,43,0.12);
       padding: 14px 12px;
       display: flex; flex-direction: column; gap: 0;
       overflow: hidden;
@@ -749,7 +771,7 @@
       letter-spacing: 0.3px;
     }
     .ptab:hover  { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
-    .ptab.active { background: rgba(0,188,212,0.18); color: var(--accent); }
+    .ptab.active { background: rgba(232,80,10,0.16); color: var(--accent); }
     .tab-content { display: none; flex: 1; flex-direction: column; min-height: 0; overflow: hidden; }
     .tab-content.active { display: flex; }
 
@@ -757,7 +779,7 @@
     .panel-title {
       font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
       color: var(--accent); font-weight: 700; padding-bottom: 7px;
-      border-bottom: 1px solid var(--border); margin-bottom: 8px; flex-shrink: 0;
+      border-bottom: 1px solid rgba(232,80,10,0.2); margin-bottom: 8px; flex-shrink: 0;
     }
     .annot-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 8px; }
     .annot-item {
@@ -798,7 +820,7 @@
       border-radius: 9px; padding: 7px 9px;
       display: flex; align-items: center; gap: 8px;
     }
-    .dev-row-icon { font-size: 16px; flex-shrink: 0; }
+    .dev-row-icon { width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
     .dev-row-info { flex: 1; min-width: 0; }
     .dev-row-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .dev-row-meta { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; display: flex; align-items: center; gap: 5px; }
@@ -836,6 +858,29 @@
 
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+    /* ── Minimalist SVG Icons ── */
+    .svg-ic {
+      width: 15px; height: 15px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      vertical-align: middle; display: inline-block; flex-shrink: 0;
+      pointer-events: none;
+    }
+    .svg-ic-lg {
+      width: 40px; height: 40px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+      display: block; margin: 0 auto 4px;
+    }
+    .svg-ic-xl {
+      width: 56px; height: 56px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+      display: block; margin: 0 auto;
+    }
+    .nav-btn .i { display:flex; align-items:center; }
+    .ti { display:flex; align-items:center; justify-content:center; margin-bottom:3px; }
   </style>
 </head>
 <body>
@@ -844,47 +889,47 @@
 <!--                        SIDEBAR                          -->
 <!-- ======================================================= -->
 <aside class="sidebar">
-  <div class="sidebar-brand">📱 Simulador BLE</div>
+  <div class="sidebar-brand"><svg class="svg-ic" style="width:14px;height:14px;" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg> Simulador BLE</div>
 
   <div class="nav-group">Telas</div>
   <button class="nav-btn active" id="nb-splash"       onclick="goTo('splash')">
-    <span class="i">⚡</span> Splash
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke-width="1.5"/></svg></span> Splash
   </button>
   <button class="nav-btn"        id="nb-login"        onclick="goTo('login')">
-    <span class="i">🔐</span> Login
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span> Login
   </button>
   <button class="nav-btn"        id="nb-home"         onclick="goTo('home')">
-    <span class="i">🏠</span> Home + Scan
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Home + Scan
   </button>
   <button class="nav-btn"        id="nb-connecting"   onclick="goTo('connecting', getFirstKnownDev())">
-    <span class="i">🔗</span> Conectando
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span> Conectando
   </button>
 
   <div class="nav-group">Plugins</div>
   <button class="nav-btn" id="nb-ctrl-flap"           onclick="goTo('ctrl-flap', {name:'Central Flap_A1B2C3', type:'central_flap'})">
-    <span class="i">🎛</span> Central Flap
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span> Central Flap
   </button>
   <button class="nav-btn" id="nb-ctrl-robocam"        onclick="goTo('ctrl-robocam', {name:'RoboCam_4D5E6F', type:'robocam'})">
-    <span class="i">📷</span> RoboCam
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span> RoboCam
   </button>
 
   <button class="nav-btn" id="nb-device-config" onclick="goTo('device-config', {name:'RoboCam_4D5E6F', type:'robocam'})">
-    <span class="i">⚙️</span> Configurar
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span> Configurar
   </button>
   <button class="nav-btn" id="nb-dev-tests" style="display:none;" onclick="goTo('dev-tests')">
-    <span class="i">🔧</span> Testes Dev
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Testes Dev
   </button>
 
   <div class="nav-divider"></div>
   <div class="nav-group">Fluxos</div>
   <button class="nav-btn" onclick="simFirst()">
-    <span class="i">🆕</span> 1ª Conexão
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span> 1ª Conexão
   </button>
   <button class="nav-btn" onclick="simReturn()">
-    <span class="i">✅</span> Reconexão
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg></span> Reconexão
   </button>
   <button class="nav-btn" onclick="simUnpair()">
-    <span class="i">🔄</span> Despareamento
+    <span class="i"><svg class="svg-ic" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span> Despareamento
   </button>
 </aside>
 
@@ -899,7 +944,7 @@
 
       <!-- ========================= SPLASH ========================= -->
       <div class="screen active" id="screen-splash">
-        <div class="splash-logo">📱</div>
+        <div class="splash-logo"><svg class="svg-ic-xl" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/><line x1="9" y1="6" x2="15" y2="6"/></svg></div>
         <div class="splash-title">RoboCam App</div>
         <div class="splash-sub">Little Engenharia</div>
         <div class="progress-bar"><div class="progress-fill" id="splash-bar"></div></div>
@@ -908,7 +953,7 @@
 
       <!-- ========================= LOGIN ========================= -->
       <div class="screen" id="screen-login">
-        <div class="login-logo">🔐</div>
+        <div class="login-logo"><svg class="svg-ic-xl" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
         <div class="login-title">Bem-vindo</div>
         <div class="login-sub">Faça login para continuar</div>
 
@@ -928,7 +973,7 @@
                 position:absolute; right:11px; top:50%; transform:translateY(-50%);
                 background:none; border:none; color:rgba(255,255,255,0.4);
                 cursor:pointer; font-size:14px; padding:2px;
-              " id="l-eye">👁</button>
+              " id="l-eye">○</button>
             </div>
           </div>
 
@@ -938,12 +983,12 @@
             <div class="role-label">Perfil de acesso</div>
             <div class="role-picker">
               <div class="role-card selected" id="rc-user" onclick="selectRole('user')">
-                <div class="role-icon">👤</div>
+                <div class="role-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
                 <div class="role-name">Usuário</div>
                 <div class="role-desc">Usar dispositivo normalmente</div>
               </div>
               <div class="role-card" id="rc-dev" onclick="selectRole('developer')">
-                <div class="role-icon">🔧</div>
+                <div class="role-icon"><svg class="svg-ic-lg" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
                 <div class="role-name">Desenvolvedor</div>
                 <div class="role-desc">Acesso a testes e diagnósticos</div>
               </div>
@@ -956,7 +1001,7 @@
           <div class="login-divider">ou</div>
 
           <button class="btn btn-outline" style="padding:10px; font-size:13px;"
-            onclick="doGuestLogin()">&#x1F464; Entrar como Visitante</button>
+            onclick="doGuestLogin()"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Entrar como Visitante</button>
 
           <button class="login-forgot" onclick="showForgot()">Esqueci minha senha</button>
         </div>
@@ -968,7 +1013,7 @@
       <div class="screen" id="screen-home">
         <div class="status-bar" style="background:rgba(0,0,0,0.15); color:rgba(255,255,255,0.85);">
           <span>9:41</span>
-          <div class="status-icons"><span>▲▲▲</span><span>WiFi</span><span>🔋</span></div>
+          <div class="status-icons"><span>▲▲▲</span><span>WiFi</span><span title="Battery">&#9643;</span></div>
         </div>
         <div class="home-header">
           <div class="home-row">
@@ -983,7 +1028,7 @@
           <div id="home-conn-section" style="display:none; flex-direction:column; gap:7px; flex-shrink:0;">
             <div class="card-label">Conectado</div>
             <div class="device-card">
-              <div class="dev-icon" id="home-dev-icon">🎛</div>
+              <div class="dev-icon" id="home-dev-icon"><svg class="svg-ic" style="width:22px;height:22px" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></div>
               <div>
                 <div class="dev-name" id="home-dev-name">—</div>
                 <div class="dev-meta">
@@ -993,7 +1038,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-green" onclick="goToCtrl()">🎮 Controlar Dispositivo</button>
+            <button class="btn btn-green" onclick="goToCtrl()"><svg class="svg-ic" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="11" x2="18.01" y2="11" stroke-width="3" stroke-linecap="round"/><path d="M17.3 6H6.7a4 4 0 0 0-4 3.67l-.58 7.25A4 4 0 0 0 6.12 21h.29a4 4 0 0 0 3.1-1.47l1-1.25a1 1 0 0 1 .78-.37h1.42a1 1 0 0 1 .78.37l1 1.25A4 4 0 0 0 17.59 21h.29a4 4 0 0 0 4-4.08l-.58-7.25A4 4 0 0 0 17.3 6z"/></svg> Controlar Dispositivo</button>
           </div>
 
           <!-- Scan contínuo -->
@@ -1014,7 +1059,7 @@
       <!-- ========================= CONNECTING ========================= -->
       <div class="screen" id="screen-connecting">
         <div class="status-bar" style="background:rgba(0,0,0,0.15); color:rgba(255,255,255,0.85);">
-          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>🔋</span></div>
+          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>&#9643;</span></div>
         </div>
         <div class="app-bar" style="background:rgba(0,0,0,0.2);">
           <button class="back-btn" onclick="goTo('home')">&#8592;</button>
@@ -1022,7 +1067,7 @@
         </div>
         <div class="screen-content">
           <div class="conn-banner">
-            <div class="dev-icon" id="conn-icon">🎛</div>
+            <div class="dev-icon" id="conn-icon"><svg class="svg-ic" style="width:22px;height:22px" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></div>
             <div>
               <div style="font-size:14px; font-weight:600;" id="conn-name">—</div>
               <span class="chip chip-blue" id="conn-type" style="margin-top:5px; display:inline-flex;">—</span>
@@ -1037,12 +1082,12 @@
           </div>
 
           <div id="sync-box" style="display:none;" class="sync-box">
-            <div style="font-size:14px; font-weight:600; margin-bottom:7px;" id="sb-title">&#x1F510; Sincronização Necessária</div>
+            <div style="font-size:14px; font-weight:600; margin-bottom:7px;" id="sb-title"><svg class="svg-ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Sincronização Necessária</div>
             <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-bottom:10px; line-height:1.5;" id="sb-msg">
               Dispositivo não sincronizado. Deseja parear?
             </div>
             <div id="sb-actions">
-              <button class="btn btn-accent" onclick="doSync()">&#x1F517; Sincronizar Dispositivo</button>
+              <button class="btn btn-accent" onclick="doSync()"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Sincronizar Dispositivo</button>
             </div>
           </div>
 
@@ -1052,7 +1097,7 @@
           </div>
 
           <div id="go-ctrl-btn" style="display:none;">
-            <button class="btn btn-green" onclick="goToCtrl()">&#x1F4F1; Controlar Dispositivo</button>
+          <button class="btn btn-green" onclick="goToCtrl()"><svg class="svg-ic" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13" stroke-width="3"/><line x1="18" y1="11" x2="18.01" y2="11" stroke-width="3"/><path d="M17.3 6H6.7a4 4 0 0 0-4 3.67l-.58 7.25A4 4 0 0 0 6.12 21h.29a4 4 0 0 0 3.1-1.47l1-1.25a1 1 0 0 1 .78-.37h1.42a1 1 0 0 1 .78.37l1 1.25A4 4 0 0 0 17.59 21h.29a4 4 0 0 0 4-4.08l-.58-7.25A4 4 0 0 0 17.3 6z"/></svg> Controlar Dispositivo</button>
           </div>
         </div>
       </div>
@@ -1060,7 +1105,7 @@
       <!-- ========================= CTRL: CENTRAL FLAP ========================= -->
       <div class="screen" id="screen-ctrl-flap">
         <div class="status-bar" style="background:rgba(0,0,0,0.15); color:rgba(255,255,255,0.85);">
-          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>🔋</span></div>
+          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>&#9643;</span></div>
         </div>
         <div class="app-bar" style="background:rgba(0,0,0,0.2);">
           <button class="back-btn" onclick="goTo('home')">&#8592;</button>
@@ -1072,9 +1117,8 @@
             <div style="font-size:10px;color:rgba(255,255,255,0.4);">Controle</div>
           </div>
           <div class="ab-actions">
-            <button class="ab-icon-btn" title="Configurações" onclick="goTo('device-config', S.connected)">&#9881;</button>
-            <button class="ab-icon-btn" id="flap-test-ab-btn" title="Testes Dev" style="display:none;" onclick="goTo('dev-tests', S.connected)">&#9874;</button>
-            <button class="ab-icon-btn danger" title="Desconectar" onclick="disconnect()">&#10005;</button>
+            <button class="ab-icon-btn" title="Configurações" onclick="goTo('device-config', S.connected)"><svg class="svg-ic" style="width:17px;height:17px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+            <button class="ab-icon-btn" id="flap-test-ab-btn" title="Testes Dev" style="display:none;" onclick="goTo('dev-tests', S.connected)"><svg class="svg-ic" style="width:17px;height:17px" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></button>
           </div>
         </div>
         <div class="screen-content" style="justify-content:space-between;">
@@ -1092,16 +1136,17 @@
             <span class="cmd-badge" id="flap-cmd-badge">—</span>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-            <button class="btn btn-outline" onclick="wifiConfig()">&#x1F4F6; WiFi Config</button>
-            <button class="btn btn-outline" onclick="syncReset()">&#x1F504; Desparecer</button>
+            <button class="btn btn-outline" onclick="wifiConfig()"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3"/></svg> WiFi Config</button>
+            <button class="btn btn-outline" onclick="syncReset()"><svg class="svg-ic" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Desparecer</button>
           </div>
+          <button class="btn-disconnect" onclick="disconnect()"><svg class="svg-ic" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Desconectar</button>
         </div>
       </div>
 
       <!-- ========================= CTRL: ROBOCAM ========================= -->
       <div class="screen" id="screen-ctrl-robocam">
         <div class="status-bar" style="background:rgba(0,0,0,0.15); color:rgba(255,255,255,0.85);">
-          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>🔋</span></div>
+          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>&#9643;</span></div>
         </div>
         <div class="app-bar" style="background:rgba(0,0,0,0.2);">
           <button class="back-btn" onclick="goTo('home')">&#8592;</button>
@@ -1113,9 +1158,8 @@
             <div style="font-size:10px;color:rgba(255,255,255,0.4);">Controle</div>
           </div>
           <div class="ab-actions">
-            <button class="ab-icon-btn" title="Configurações" onclick="goTo('device-config', S.connected)">&#9881;</button>
-            <button class="ab-icon-btn" id="robo-test-ab-btn" title="Testes Dev" style="display:none;" onclick="goTo('dev-tests', S.connected)">&#9874;</button>
-            <button class="ab-icon-btn danger" title="Desconectar" onclick="disconnect()">&#10005;</button>
+            <button class="ab-icon-btn" title="Configurações" onclick="goTo('device-config', S.connected)"><svg class="svg-ic" style="width:17px;height:17px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+            <button class="ab-icon-btn" id="robo-test-ab-btn" title="Testes Dev" style="display:none;" onclick="goTo('dev-tests', S.connected)"><svg class="svg-ic" style="width:17px;height:17px" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></button>
           </div>
         </div>
 
@@ -1134,7 +1178,7 @@
           <!-- Pan / Tilt sliders -->
           <div class="card">
             <div class="slider-wrap">
-              <div class="slider-row"><span>&#x1F504; Pan</span><span id="pan-lbl">0°</span></div>
+              <div class="slider-row"><span>&#8635; Pan</span><span id="pan-lbl">0°</span></div>
               <input type="range" min="-180" max="180" value="0" id="pan-sl"
                 oninput="updAngle('pan',this.value)" onchange="sendAngle('Pan',this.value)">
               <div class="slider-ticks"><span>-180°</span><span>0°</span><span>+180°</span></div>
@@ -1142,7 +1186,7 @@
           </div>
           <div class="card">
             <div class="slider-wrap">
-              <div class="slider-row"><span>&#x2195;&#xFE0F; Tilt</span><span id="tilt-lbl">0°</span></div>
+              <div class="slider-row"><span>&#8597; Tilt</span><span id="tilt-lbl">0°</span></div>
               <input type="range" min="-90" max="90" value="0" id="tilt-sl"
                 oninput="updAngle('tilt',this.value)" onchange="sendAngle('Tilt',this.value)">
               <div class="slider-ticks"><span>-90°</span><span>0°</span><span>+90°</span></div>
@@ -1166,7 +1210,7 @@
           <!-- Foto -->
           <div class="photo-btn-wrap">
             <button class="photo-btn" onclick="takePhoto()">
-              <span class="photo-btn-icon">📷</span>
+              <span class="photo-btn-icon"><svg class="svg-ic" style="width:24px;height:24px" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
               Tirar Foto
               <span class="photo-count" id="photo-count">0</span>
             </button>
@@ -1177,13 +1221,17 @@
             <span class="cmd-badge" id="robo-cmd-badge">—</span>
           </div>
 
+          <div style="margin:0 14px;">
+            <button class="btn-disconnect" onclick="disconnect()"><svg class="svg-ic" style="width:16px;height:16px" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Desconectar</button>
+          </div>
+
         </div>
       </div><!-- /screen-ctrl-robocam -->
 
       <!-- ========================= DEVICE HOME ========================= -->
       <div class="screen" id="screen-device-home">
         <div class="status-bar" style="background:rgba(0,0,0,0.25); color:rgba(255,255,255,0.85);">
-          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>🔋</span></div>
+          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>&#9643;</span></div>
         </div>
         <div class="app-bar" style="background:rgba(0,0,0,0.2);">
           <button class="back-btn" onclick="goTo('home')">&#8592;</button>
@@ -1193,7 +1241,7 @@
 
         <!-- Banner do dispositivo -->
         <div class="dh-banner">
-          <div class="dh-banner-icon" id="dh-icon">📱</div>
+          <div class="dh-banner-icon" id="dh-icon"><svg class="svg-ic" style="width:28px;height:28px" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg></div>
           <div>
             <div class="dh-banner-name" id="dh-name">—</div>
             <div class="dh-banner-meta">
@@ -1223,7 +1271,7 @@
         <!-- Ações principais -->
         <div class="dh-action-grid">
           <div class="dh-action-card ctrl" onclick="goToCtrl()">
-            <div class="dh-action-icon">🎮</div>
+            <div class="dh-action-icon"><svg class="svg-ic" style="width:22px;height:22px" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13" stroke-width="3"/><line x1="18" y1="11" x2="18.01" y2="11" stroke-width="3"/><path d="M17.3 6H6.7a4 4 0 0 0-4 3.67l-.58 7.25A4 4 0 0 0 6.12 21h.29a4 4 0 0 0 3.1-1.47l1-1.25a1 1 0 0 1 .78-.37h1.42a1 1 0 0 1 .78.37l1 1.25A4 4 0 0 0 17.59 21h.29a4 4 0 0 0 4-4.08l-.58-7.25A4 4 0 0 0 17.3 6z"/></svg></div>
             <div>
               <div class="dh-action-title">Controlar</div>
               <div class="dh-action-desc">Mover, acionar e monitorar o dispositivo</div>
@@ -1232,7 +1280,7 @@
           </div>
 
           <div class="dh-action-card cfg" onclick="goTo('device-config', S.connected)">
-            <div class="dh-action-icon">⚙️</div>
+            <div class="dh-action-icon"><svg class="svg-ic" style="width:22px;height:22px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
             <div>
               <div class="dh-action-title">Configurar</div>
               <div class="dh-action-desc">WiFi, motor, MQTT e OTA</div>
@@ -1241,7 +1289,7 @@
           </div>
 
           <div class="dh-action-card test" id="dh-test-card" style="display:none;" onclick="goTo('dev-tests', S.connected)">
-            <div class="dh-action-icon">🔧</div>
+            <div class="dh-action-icon"><svg class="svg-ic" style="width:22px;height:22px" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
             <div>
               <div class="dh-action-title">Testar</div>
               <div class="dh-action-desc" style="color:#FFE082;">Diagnósticos e testes de hardware</div>
@@ -1254,7 +1302,7 @@
       <!-- ========================= DEVICE CONFIG ========================= -->
       <div class="screen" id="screen-device-config">
         <div class="status-bar" style="background:rgba(0,0,0,0.25); color:rgba(255,255,255,0.85);">
-          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>🔋</span></div>
+          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>&#9643;</span></div>
         </div>
         <div class="app-bar" style="background:rgba(0,0,0,0.2);">
           <button class="back-btn" onclick="goToCtrl()">&#8592;</button>
@@ -1267,7 +1315,7 @@
           <!-- ═══════════ CENTRAL FLAP — seções específicas ═══════════ -->
           <div id="cfg-rf-section" style="display:none">
             <div class="cfg-section">
-              <div class="cfg-section-header">📻 Comunicação RF</div>
+              <div class="cfg-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Comunicação RF</div>
               <div class="cfg-fields">
                 <div class="cfg-toggle-row">
                   <span class="cfg-toggle-lbl">RF Habilitado</span>
@@ -1282,13 +1330,13 @@
                   </tbody>
                 </table>
               </div>
-              <button class="cfg-save-btn" onclick="cfgSave('rf')">💾 Salvar configurações RF</button>
+              <button class="cfg-save-btn" onclick="cfgSave('rf')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar configurações RF</button>
             </div>
           </div>
 
           <div id="cfg-ir-section" style="display:none">
             <div class="cfg-section">
-              <div class="cfg-section-header">💡 Comunicação IR</div>
+              <div class="cfg-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Comunicação IR</div>
               <div class="cfg-fields">
                 <div class="cfg-toggle-row">
                   <span class="cfg-toggle-lbl">IR Habilitado</span>
@@ -1303,7 +1351,7 @@
                   </tbody>
                 </table>
               </div>
-              <button class="cfg-save-btn" onclick="cfgSave('ir')">💾 Salvar configurações IR</button>
+              <button class="cfg-save-btn" onclick="cfgSave('ir')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar configurações IR</button>
             </div>
           </div>
 
@@ -1320,7 +1368,7 @@
                   </div>
                 </div>
               </div>
-              <button class="cfg-save-btn" onclick="cfgSave('motor-flap')">&#128190; Salvar Motor Giro</button>
+              <button class="cfg-save-btn" onclick="cfgSave('motor-flap')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar Motor Giro</button>
             </div>
 
             <div class="cfg-section" style="margin-top:10px;">
@@ -1338,27 +1386,27 @@
                   </div>
                 </div>
               </div>
-              <button class="cfg-save-btn" onclick="cfgSave('motor-abertura')">&#128190; Salvar Prote&#231;&#227;o</button>
+              <button class="cfg-save-btn" onclick="cfgSave('motor-abertura')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar Proteção</button>
             </div>
           </div>
 
           <div id="cfg-buzzer-section" style="display:none">
             <div class="cfg-section">
-              <div class="cfg-section-header">🔔 Buzzer</div>
+              <div class="cfg-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg> Buzzer</div>
               <div class="cfg-fields">
                 <div class="cfg-toggle-row">
                   <span class="cfg-toggle-lbl">Buzzer Habilitado</span>
                   <div class="cfg-toggle" id="tog-buzzer" onclick="toggleCfg('buzzer')"></div>
                 </div>
               </div>
-              <button class="cfg-save-btn" onclick="cfgSave('buzzer')">💾 Salvar Buzzer</button>
+              <button class="cfg-save-btn" onclick="cfgSave('buzzer')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar Buzzer</button>
             </div>
           </div>
           <!-- ═══════════ FIM — seções Central Flap ═══════════ -->
 
           <!-- WiFi -->
           <div class="cfg-section">
-            <div class="cfg-section-header">📶 Rede WiFi</div>
+            <div class="cfg-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3"/></svg> Rede WiFi</div>
             <div class="cfg-fields">
               <div class="cfg-row-2">
                 <div class="cfg-field">
@@ -1401,7 +1449,7 @@
                 </div>
               </div>
             </div>
-            <button class="cfg-save-btn" onclick="cfgSave('wifi')">💾 Salvar configurações WiFi</button>
+            <button class="cfg-save-btn" onclick="cfgSave('wifi')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar configurações WiFi</button>
           </div>
 
           <!-- Motor — somente RoboCam -->
@@ -1433,12 +1481,12 @@
                 <input class="cfg-input" id="cfg-wheel-diam" type="number" step="0.01" placeholder="23.80">
               </div>
             </div>
-            <button class="cfg-save-btn" onclick="cfgSave('motor')">💾 Salvar configurações do Motor</button>
+            <button class="cfg-save-btn" onclick="cfgSave('motor')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar configurações do Motor</button>
           </div>
 
           <!-- CÂMERA IP (RoboCam) -->
           <div class="cfg-section" id="cfg-camera-section">
-            <div class="cfg-section-header">📷 Câmera IP</div>
+            <div class="cfg-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Câmera IP</div>
             <div style="font-size:11px; color:rgba(255,255,255,0.45); margin-bottom:10px; line-height:1.5;">
               Acesso direto ao stream ou snapshot da câmera na rede local.
             </div>
@@ -1490,12 +1538,12 @@
                 <input class="cfg-input" id="cfg-cam-channel" type="text" placeholder="channel=1&amp;subtype=0">
               </div>
             </div>
-            <button class="cfg-save-btn" onclick="cfgSave('camera')">💾 Salvar Câmera</button>
+            <button class="cfg-save-btn" onclick="cfgSave('camera')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar Câmera</button>
           </div>
 
           <!-- MQTT -->
           <div class="cfg-section">
-            <div class="cfg-section-header">📡 MQTT</div>
+            <div class="cfg-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8a16 16 0 0 0 6.56 6.56l.9-.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> MQTT</div>
             <div class="cfg-fields">
               <div class="cfg-row-2">
                 <div class="cfg-field">
@@ -1530,12 +1578,12 @@
                 <input class="cfg-input" id="cfg-mqtt-tsend" type="number" min="1" placeholder="30">
               </div>
             </div>
-            <button class="cfg-save-btn" onclick="cfgSave('mqtt')">💾 Salvar configurações MQTT</button>
+            <button class="cfg-save-btn" onclick="cfgSave('mqtt')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar configurações MQTT</button>
           </div>
 
           <!-- OTA -->
           <div class="cfg-section">
-            <div class="cfg-section-header">🔄 OTA — Atualização de Firmware</div>
+            <div class="cfg-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> OTA — Atualização de Firmware</div>
             <div class="cfg-fields">
               <div class="cfg-field">
                 <label>URL do servidor OTA</label>
@@ -1552,7 +1600,7 @@
                 </div>
               </div>
             </div>
-            <button class="cfg-save-btn" onclick="cfgSave('ota')">💾 Salvar configurações OTA</button>
+            <button class="cfg-save-btn" onclick="cfgSave('ota')"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar configurações OTA</button>
           </div>
 
         </div>
@@ -1561,7 +1609,7 @@
       <!-- ========================= DEV TESTS ========================= -->
       <div class="screen" id="screen-dev-tests">
         <div class="status-bar" style="background:rgba(0,0,0,0.3); color:rgba(255,255,255,0.85);">
-          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>🔋</span></div>
+          <span>9:41</span><div class="status-icons"><span>▲▲▲</span><span>&#9643;</span></div>
         </div>
         <div class="app-bar" style="background:rgba(0,0,0,0.3);">
           <button class="back-btn" onclick="goToCtrl()">&#8592;</button>
@@ -1579,48 +1627,48 @@
 
             <!-- Motor Linear (A4988 / NEMA17) -->
             <div class="test-section">
-              <div class="test-section-header">⚙️ Motor Linear — A4988 / NEMA17</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg> Motor Linear — A4988 / NEMA17</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-motor-fwd"   onclick="runTest('motor-fwd')">   <span class="ti">➡️</span>Avançar 50 mm</button>
-                <button class="test-btn" id="tb-motor-bwd"   onclick="runTest('motor-bwd')">   <span class="ti">⬅️</span>Recuar 50 mm</button>
-                <button class="test-btn" id="tb-motor-home"  onclick="runTest('motor-home')">  <span class="ti">🏠</span>Homing</button>
-                <button class="test-btn" id="tb-motor-stop"  onclick="runTest('motor-stop')">  <span class="ti">⏹️</span>Parar Motor</button>
-                <button class="test-btn" id="tb-endstop-min" onclick="runTest('endstop-min')"> <span class="ti">🔴</span>Fim de Curso MIN</button>
-                <button class="test-btn" id="tb-endstop-max" onclick="runTest('endstop-max')"> <span class="ti">🟢</span>Fim de Curso MAX</button>
+                <button class="test-btn" id="tb-motor-fwd"   onclick="runTest('motor-fwd')">   <span class="ti">→</span>Avançar 50 mm</button>
+                <button class="test-btn" id="tb-motor-bwd"   onclick="runTest('motor-bwd')">   <span class="ti">←</span>Recuar 50 mm</button>
+                <button class="test-btn" id="tb-motor-home"  onclick="runTest('motor-home')">  <span class="ti">⌂</span>Homing</button>
+                <button class="test-btn" id="tb-motor-stop"  onclick="runTest('motor-stop')">  <span class="ti">■</span>Parar Motor</button>
+                <button class="test-btn" id="tb-endstop-min" onclick="runTest('endstop-min')"> <span class="ti">●</span>Fim de Curso MIN</button>
+                <button class="test-btn" id="tb-endstop-max" onclick="runTest('endstop-max')"> <span class="ti">●</span>Fim de Curso MAX</button>
               </div>
               <div class="test-result-bar" id="tr-motor">—</div>
             </div>
 
             <!-- Pan / Tilt (28BYJ-48) -->
             <div class="test-section">
-              <div class="test-section-header">🎥 Câmera Pan/Tilt — 28BYJ-48</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Câmera Pan/Tilt — 28BYJ-48</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-pan-plus"    onclick="runTest('pan-plus')">    <span class="ti">↔️</span>Pan +90°</button>
-                <button class="test-btn" id="tb-pan-minus"   onclick="runTest('pan-minus')">   <span class="ti">↔️</span>Pan −90°</button>
-                <button class="test-btn" id="tb-tilt-plus"   onclick="runTest('tilt-plus')">   <span class="ti">↕️</span>Tilt +45°</button>
-                <button class="test-btn" id="tb-tilt-minus"  onclick="runTest('tilt-minus')">  <span class="ti">↕️</span>Tilt −45°</button>
-                <button class="test-btn" id="tb-pantilt-ctr" onclick="runTest('pantilt-ctr')" style="grid-column:span 2;"> <span class="ti">🎯</span>Centralizar (0°, 0°)</button>
+                <button class="test-btn" id="tb-pan-plus"    onclick="runTest('pan-plus')">    <span class="ti">↔</span>Pan +90°</button>
+                <button class="test-btn" id="tb-pan-minus"   onclick="runTest('pan-minus')">   <span class="ti">↔</span>Pan −90°</button>
+                <button class="test-btn" id="tb-tilt-plus"   onclick="runTest('tilt-plus')">   <span class="ti">↕</span>Tilt +45°</button>
+                <button class="test-btn" id="tb-tilt-minus"  onclick="runTest('tilt-minus')">  <span class="ti">↕</span>Tilt −45°</button>
+                <button class="test-btn" id="tb-pantilt-ctr" onclick="runTest('pantilt-ctr')" style="grid-column:span 2;"> <span class="ti">◎</span>Centralizar (0°, 0°)</button>
               </div>
               <div class="test-result-bar" id="tr-pantilt">—</div>
             </div>
 
             <!-- Sensores Ambientais -->
             <div class="test-section">
-              <div class="test-section-header">🌡️ Sensores Ambientais</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg> Sensores Ambientais</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-aht20"   onclick="runTest('aht20')">   <span class="ti">💧</span>Ler AHT20<br><span style="font-size:9px;opacity:.5;">Temp + Umidade</span></button>
-                <button class="test-btn" id="tb-bmp280"  onclick="runTest('bmp280')">  <span class="ti">🧭</span>Ler BMP280<br><span style="font-size:9px;opacity:.5;">Pressão + Altitude</span></button>
+                <button class="test-btn" id="tb-aht20"   onclick="runTest('aht20')">   <span class="ti">◈</span>Ler AHT20<br><span style="font-size:9px;opacity:.5;">Temp + Umidade</span></button>
+                <button class="test-btn" id="tb-bmp280"  onclick="runTest('bmp280')">  <span class="ti">⊕</span>Ler BMP280<br><span style="font-size:9px;opacity:.5;">Pressão + Altitude</span></button>
               </div>
               <div class="test-result-bar" id="tr-sensors">—</div>
             </div>
 
             <!-- IMU MPU9250 -->
             <div class="test-section">
-              <div class="test-section-header">📐 IMU — MPU9250</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><polygon points="12 2 2 22 22 22"/></svg> IMU — MPU9250</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-mpu-read"  onclick="runTest('mpu-read')">  <span class="ti">📊</span>Ler Acelerômetro</button>
-                <button class="test-btn" id="tb-mpu-calib" onclick="runTest('mpu-calib')"> <span class="ti">⚖️</span>Calibrar MPU9250</button>
-                <button class="test-btn" id="tb-mpu-motion" onclick="runTest('mpu-motion')" style="grid-column:span 2;"><span class="ti">🚀</span>Testar Detecção de Movimento</button>
+                <button class="test-btn" id="tb-mpu-read"  onclick="runTest('mpu-read')">  <span class="ti">▦</span>Ler Acelerômetro</button>
+                <button class="test-btn" id="tb-mpu-calib" onclick="runTest('mpu-calib')"> <span class="ti">⚖</span>Calibrar MPU9250</button>
+                <button class="test-btn" id="tb-mpu-motion" onclick="runTest('mpu-motion')" style="grid-column:span 2;"><span class="ti">↑</span>Testar Detecção de Movimento</button>
               </div>
               <div class="test-result-bar" id="tr-imu">—</div>
             </div>
@@ -1632,13 +1680,13 @@
 
             <!-- Motor DC -->
             <div class="test-section">
-              <div class="test-section-header">⚙️ Motor de Giro (DC)</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg> Motor de Giro (DC)</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-flap-fwd"      onclick="runTest('flap-fwd')">     <span class="ti">▶️</span>Girar Abrir</button>
-                <button class="test-btn" id="tb-flap-bwd"      onclick="runTest('flap-bwd')">     <span class="ti">◀️</span>Girar Fechar</button>
-                <button class="test-btn" id="tb-flap-right"    onclick="runTest('flap-right')">   <span class="ti">➡️</span>Girar Direita</button>
-                <button class="test-btn" id="tb-flap-left"     onclick="runTest('flap-left')">    <span class="ti">⬅️</span>Girar Esquerda</button>
-                <button class="test-btn" id="tb-flap-stop"     onclick="runTest('flap-stop')" style="grid-column:span 2;"><span class="ti">⏹️</span>STOP</button>
+                <button class="test-btn" id="tb-flap-fwd"      onclick="runTest('flap-fwd')">     <span class="ti">▶</span>Girar Abrir</button>
+                <button class="test-btn" id="tb-flap-bwd"      onclick="runTest('flap-bwd')">     <span class="ti">◀</span>Girar Fechar</button>
+                <button class="test-btn" id="tb-flap-right"    onclick="runTest('flap-right')">   <span class="ti">→</span>Girar Direita</button>
+                <button class="test-btn" id="tb-flap-left"     onclick="runTest('flap-left')">    <span class="ti">←</span>Girar Esquerda</button>
+                <button class="test-btn" id="tb-flap-stop"     onclick="runTest('flap-stop')" style="grid-column:span 2;"><span class="ti">■</span>STOP</button>
                 <button class="test-btn" id="tb-flap-current"  onclick="runTest('flap-current')" style="grid-column:span 2;"><span class="ti">⚡</span>Leitura de Corrente</button>
               </div>
               <div class="test-result-bar" id="tr-flap-motor">—</div>
@@ -1646,40 +1694,40 @@
 
             <!-- Fim de Curso -->
             <div class="test-section">
-              <div class="test-section-header">🔌 Fim de Curso (Endstops)</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Fim de Curso (Endstops)</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-fc-open"   onclick="runTest('fc-open')">  <span class="ti">🟢</span>Aberto</button>
-                <button class="test-btn" id="tb-fc-close"  onclick="runTest('fc-close')"> <span class="ti">🔴</span>Fechado</button>
-                <button class="test-btn" id="tb-fc-right"  onclick="runTest('fc-right')"> <span class="ti">➡️</span>Direita</button>
-                <button class="test-btn" id="tb-fc-left"   onclick="runTest('fc-left')">  <span class="ti">⬅️</span>Esquerda</button>
-                <button class="test-btn" id="tb-fc-up"     onclick="runTest('fc-up')">    <span class="ti">⬆️</span>Sobe</button>
-                <button class="test-btn" id="tb-fc-down"   onclick="runTest('fc-down')">  <span class="ti">⬇️</span>Desce</button>
+                <button class="test-btn" id="tb-fc-open"   onclick="runTest('fc-open')">  <span class="ti">●</span>Aberto</button>
+                <button class="test-btn" id="tb-fc-close"  onclick="runTest('fc-close')"> <span class="ti">●</span>Fechado</button>
+                <button class="test-btn" id="tb-fc-right"  onclick="runTest('fc-right')"> <span class="ti">→</span>Direita</button>
+                <button class="test-btn" id="tb-fc-left"   onclick="runTest('fc-left')">  <span class="ti">←</span>Esquerda</button>
+                <button class="test-btn" id="tb-fc-up"     onclick="runTest('fc-up')">    <span class="ti">↑</span>Sobe</button>
+                <button class="test-btn" id="tb-fc-down"   onclick="runTest('fc-down')">  <span class="ti">↓</span>Desce</button>
               </div>
               <div class="test-result-bar" id="tr-flap-fc">—</div>
             </div>
 
             <!-- RF -->
             <div class="test-section">
-              <div class="test-section-header">📻 Receptor RF</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Receptor RF</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-rf-open"   onclick="runTest('rf-open')">  <span class="ti">📶</span>Receber Abrir</button>
-                <button class="test-btn" id="tb-rf-close"  onclick="runTest('rf-close')"> <span class="ti">📶</span>Receber Fechar</button>
-                <button class="test-btn" id="tb-rf-right"  onclick="runTest('rf-right')"> <span class="ti">📶</span>Receber Direita</button>
-                <button class="test-btn" id="tb-rf-left"   onclick="runTest('rf-left')">  <span class="ti">📶</span>Receber Esquerda</button>
-                <button class="test-btn" id="tb-rf-stop"   onclick="runTest('rf-stop')" style="grid-column:span 2;">  <span class="ti">📶</span>Receber Stop</button>
+                <button class="test-btn" id="tb-rf-open"   onclick="runTest('rf-open')">  <span class="ti">≋</span>Receber Abrir</button>
+                <button class="test-btn" id="tb-rf-close"  onclick="runTest('rf-close')"> <span class="ti">≋</span>Receber Fechar</button>
+                <button class="test-btn" id="tb-rf-right"  onclick="runTest('rf-right')"> <span class="ti">≋</span>Receber Direita</button>
+                <button class="test-btn" id="tb-rf-left"   onclick="runTest('rf-left')">  <span class="ti">≋</span>Receber Esquerda</button>
+                <button class="test-btn" id="tb-rf-stop"   onclick="runTest('rf-stop')" style="grid-column:span 2;">  <span class="ti">≋</span>Receber Stop</button>
               </div>
               <div class="test-result-bar" id="tr-flap-rf">—</div>
             </div>
 
             <!-- IR -->
             <div class="test-section">
-              <div class="test-section-header">💡 Receptor IR</div>
+              <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Receptor IR</div>
               <div class="test-grid">
-                <button class="test-btn" id="tb-ir-open"   onclick="runTest('ir-open')">  <span class="ti">🔆</span>Receber Abrir</button>
-                <button class="test-btn" id="tb-ir-close"  onclick="runTest('ir-close')"> <span class="ti">🔆</span>Receber Fechar</button>
-                <button class="test-btn" id="tb-ir-right"  onclick="runTest('ir-right')"> <span class="ti">🔆</span>Receber Direita</button>
-                <button class="test-btn" id="tb-ir-left"   onclick="runTest('ir-left')">  <span class="ti">🔆</span>Receber Esquerda</button>
-                <button class="test-btn" id="tb-ir-stop"   onclick="runTest('ir-stop')" style="grid-column:span 2;">  <span class="ti">🔆</span>Receber Stop</button>
+                <button class="test-btn" id="tb-ir-open"   onclick="runTest('ir-open')">  <span class="ti">☀</span>Receber Abrir</button>
+                <button class="test-btn" id="tb-ir-close"  onclick="runTest('ir-close')"> <span class="ti">☀</span>Receber Fechar</button>
+                <button class="test-btn" id="tb-ir-right"  onclick="runTest('ir-right')"> <span class="ti">☀</span>Receber Direita</button>
+                <button class="test-btn" id="tb-ir-left"   onclick="runTest('ir-left')">  <span class="ti">☀</span>Receber Esquerda</button>
+                <button class="test-btn" id="tb-ir-stop"   onclick="runTest('ir-stop')" style="grid-column:span 2;">  <span class="ti">☀</span>Receber Stop</button>
               </div>
               <div class="test-result-bar" id="tr-flap-ir">—</div>
             </div>
@@ -1688,12 +1736,12 @@
 
           <!-- ═══════════ SISTEMA (comum a todos) ═══════════ -->
           <div class="test-section">
-            <div class="test-section-header">🖥️ Sistema</div>
+            <div class="test-section-header"><svg class="svg-ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Sistema</div>
             <div class="test-grid">
-              <button class="test-btn" id="tb-heap"   onclick="runTest('heap')">    <span class="ti">💾</span>Heap Livre</button>
-              <button class="test-btn" id="tb-mqtt"   onclick="runTest('mqtt')">    <span class="ti">📡</span>Telemetria MQTT</button>
-              <button class="test-btn" id="tb-led"    onclick="runTest('led')">     <span class="ti">💡</span>Piscar LED Status</button>
-              <button class="test-btn" id="tb-reboot" onclick="runTest('reboot')" style="border-color:rgba(239,83,80,0.4);color:#EF9A9A;"><span class="ti">🔁</span>Reiniciar ESP32</button>
+              <button class="test-btn" id="tb-heap"   onclick="runTest('heap')">    <span class="ti">▥</span>Heap Livre</button>
+              <button class="test-btn" id="tb-mqtt"   onclick="runTest('mqtt')">    <span class="ti">⇆</span>Telemetria MQTT</button>
+              <button class="test-btn" id="tb-led"    onclick="runTest('led')">     <span class="ti">●</span>Piscar LED Status</button>
+              <button class="test-btn" id="tb-reboot" onclick="runTest('reboot')" style="border-color:rgba(239,83,80,0.4);color:#EF9A9A;"><span class="ti">↺</span>Reiniciar ESP32</button>
             </div>
             <div class="test-result-bar" id="tr-sistema">—</div>
           </div>
@@ -1782,10 +1830,30 @@
 // ────────────────────────────────────────────────────────────
 
 const TYPE_META = {
-  central_flap: { displayType: 'Central Flap', icon: '🎛',  chipClass: 'chip-blue'   },
-  robocam:      { displayType: 'RoboCam',       icon: '📷',  chipClass: 'chip-orange' },
-  rc_car:       { displayType: 'RC Car',         icon: '🚗',  chipClass: 'chip-purple' },
-  unknown:      { displayType: 'Desconhecido',   icon: '❓',  chipClass: 'chip-gray'   },
+  central_flap: {
+    displayType: 'Central Flap', chipClass: 'chip-blue',
+    iconColor: '#FF9166',
+    svgHtml: '<svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#FF9166;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>',
+    iconBg: 'rgba(255,100,60,0.15)', iconBorder: 'rgba(255,100,60,0.3)'
+  },
+  robocam: {
+    displayType: 'RoboCam', chipClass: 'chip-orange',
+    iconColor: '#FCD34D',
+    svgHtml: '<svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#FCD34D;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',
+    iconBg: 'rgba(245,158,11,0.15)', iconBorder: 'rgba(245,158,11,0.3)'
+  },
+  rc_car: {
+    displayType: 'RC Car', chipClass: 'chip-purple',
+    iconColor: '#D8B4FE',
+    svgHtml: '<svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#D8B4FE;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="1" y="9" width="22" height="10" rx="2" ry="2"/><path d="M5 9V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><circle cx="7" cy="19" r="2" fill="#D8B4FE" stroke="none"/><circle cx="17" cy="19" r="2" fill="#D8B4FE" stroke="none"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>',
+    iconBg: 'rgba(168,85,247,0.15)', iconBorder: 'rgba(168,85,247,0.3)'
+  },
+  unknown: {
+    displayType: 'Desconhecido', chipClass: 'chip-gray',
+    iconColor: 'rgba(255,255,255,0.3)',
+    svgHtml: '<svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:rgba(255,255,255,0.3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"/></svg>',
+    iconBg: 'rgba(255,255,255,0.04)', iconBorder: 'rgba(255,255,255,0.08)'
+  },
 };
 
 const DEFAULT_DEVICES = [
@@ -1863,7 +1931,7 @@ function renderDevList() {
     const m = TYPE_META[d.type] || TYPE_META.unknown;
     return [
       '<div class="dev-row">',
-        '<div class="dev-row-icon">' + m.icon + '</div>',
+        '<div class="dev-row-icon" style="background:' + m.iconBg + ';border:1px solid ' + m.iconBorder + ';">' + m.svgHtml + '</div>',
         '<div class="dev-row-info">',
           '<div class="dev-row-name">' + d.name + '</div>',
           '<div class="dev-row-meta">',
@@ -1872,7 +1940,7 @@ function renderDevList() {
           '</div>',
         '</div>',
         '<div class="dev-row-actions">',
-          '<button class="icon-btn del" title="Remover" onclick="removeDevice(' + d.id + ')">🗑</button>',
+          '<button class="icon-btn del" style="font-size:12px;font-family:monospace;" title="Remover" style="font-family:monospace" onclick="removeDevice(' + d.id + ')">🗑</button>',
         '</div>',
       '</div>'
     ].join('');
@@ -1984,21 +2052,21 @@ var ANNOT = {
       { t: 'Exibida após conexão bem-sucedida com qualquer dispositivo' },
       { t: 'Mostra nome, tipo e status do dispositivo conectado' },
       { t: 'Telemetria rápida (posição, pan, temperatura) — RoboCam' },
-      { t: '🎮 Controlar → tela de controle do plugin (Flap / RoboCam)' },
-      { t: '⚙️ Configurar → WiFi, motor, MQTT, OTA' },
-      { t: '🔧 Testar → somente visível para perfil Desenvolvedor' },
+      { t: '▶ Controlar → tela de controle do plugin (Flap / RoboCam)' },
+      { t: '⚙ Configurar → WiFi, motor, MQTT, OTA' },
+      { t: '⚒ Testar → somente visível para perfil Desenvolvedor' },
     ]
   },
   'device-config': {
     title: 'Configurações do Dispositivo',
     items: [
-      { t: '📶 WiFi: até 2 redes SSID + senha (NVS key_ssid_01/02)' },
+      { t: 'WiFi: até 2 redes SSID + senha (NVS key_ssid_01/02)' },
       { t: 'IP Estático: on/off + ip, gateway, máscara (NVS static_ip)' },
-      { t: '⚙️ Motor (RoboCam): velocidade máx., aceleração, microsteps, diâmetro roda' },
+      { t: 'Motor (RoboCam): velocidade máx., aceleração, microsteps, diâmetro roda' },
       { t: 'Microsteps: 1/2/4/8/16 — afeta resolução e torque' },
-      { t: '📡 MQTT: broker, porta, usuário, senha, tópicos pub/sub, intervalo' },
+      { t: 'MQTT: broker, porta, usuário, senha, tópicos pub/sub, intervalo' },
       { t: 'Suporte a 2 brokers: ThingsBoard + Mosquitto (NVS mqtt_broker01/02)' },
-      { t: '🔄 OTA: URL do servidor, timer de verificação, enable automático' },
+      { t: 'OTA: URL do servidor, timer de verificação, enable automático' },
       { t: 'Todas as configs salvas via BLE → firmware grava na NVS' },
       { t: 'TODO: validação de campos antes de enviar', todo: true },
     ]
@@ -2096,7 +2164,7 @@ function initDeviceHome(dev) {
   const d = S.connected || {};
   const m = withMeta(d);
 
-  document.getElementById('dh-icon').textContent = m.icon || '📱';
+  document.getElementById('dh-icon').innerHTML = m.svgHtml || '';
   document.getElementById('dh-name').textContent = d.name || '—';
   document.getElementById('dh-type').textContent = m.displayType || d.type || '—';
   document.getElementById('dh-type').className = 'chip ' + (m.chipClass || 'chip-blue');
@@ -2321,8 +2389,8 @@ function selectRole(role) {
 function togglePass() {
   const inp = document.getElementById('l-pass');
   const eye = document.getElementById('l-eye');
-  if (inp.type === 'password') { inp.type = 'text';     eye.textContent = '🙈'; }
-  else                         { inp.type = 'password'; eye.textContent = '👁'; }
+  if (inp.type === 'password') { inp.type = 'text';     eye.textContent = '●'; }
+  else                         { inp.type = 'password'; eye.textContent = '○'; }
 }
 
 function doLogin() {
@@ -2768,7 +2836,7 @@ function initHome() {
   const hasConn = !!S.connected;
   document.getElementById('home-conn-section').style.display = hasConn ? 'flex' : 'none';
   if (hasConn) {
-    document.getElementById('home-dev-icon').textContent = S.connected.icon || '📱';
+    document.getElementById('home-dev-icon').innerHTML = S.connected.svgHtml || S.connected.icon || '';
     document.getElementById('home-dev-name').textContent = S.connected.name;
     document.getElementById('home-dev-type').textContent = S.connected.displayType || '';
   }
@@ -2811,7 +2879,7 @@ function renderHomeDevices() {
         unknown ? 'title="Plugin não encontrado para este dispositivo"'
                 : 'onclick="connectDev(' + d.id + ')"',
       '>',
-        '<div class="dev-icon" style="width:38px;height:38px;font-size:17px;">' + m.icon + '</div>',
+        '<div style="width:44px;height:44px;border-radius:12px;background:' + m.iconBg + ';border:1px solid ' + m.iconBorder + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + m.svgHtml + '</div>',
         '<div style="flex:1;">',
           '<div style="font-size:12px;font-weight:600;margin-bottom:3px;">' + d.name + '</div>',
           '<div style="display:flex;align-items:center;gap:6px;">',
@@ -2851,7 +2919,7 @@ function initConnecting(dev) {
   S.plugin = dev.type;
 
   document.getElementById('conn-title').textContent    = 'Conectando...';
-  document.getElementById('conn-icon').textContent     = dev.icon  || '📱';
+  document.getElementById('conn-icon').innerHTML     = dev.svgHtml || dev.icon || '';
   document.getElementById('conn-name').textContent     = dev.name;
   document.getElementById('conn-type').textContent     = dev.displayType || dev.type;
   document.getElementById('conn-type').className       = 'chip ' + (dev.chipClass || 'chip-blue');
